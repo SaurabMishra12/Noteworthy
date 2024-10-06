@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noteworthy - Automatic YouTube Notes</title>
+    <style>
+        :root {
+            --primary-color: #0047ab;
+            --secondary-color: #f4f4f9;
+            --text-color: #333;
+            --light-text-color: #666;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .hero {
+            background-image: url('/api/placeholder/1200/400');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-content {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cta-buttons {
+            margin-top: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #003580;
+        }
+
+        .features {
+            padding: 80px 0;
+            background-color: var(--secondary-color);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .how-to-use {
+            padding: 80px 0;
+        }
+
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .step-item {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+        }
+
+        .contact {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                height: 300px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .feature-grid, .step-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Noteworthy</div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#how-to-use">How It Works</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Automatic Notes from YouTube Videos</h1>
+                <p>Save time and boost productivity with AI-powered note-taking</p>
+                <div class="cta-buttons">
+                    <a href="/signup" class="button">Get Started</a>
+                    <a href="/login" class="button">Login</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Why Choose Noteworthy</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">📝</div>
+                    <h3>Automatic Transcription</h3>
+                    <p>Convert any YouTube video into accurate text transcripts</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-Powered Notes making</h3>
+                    <p>Get Detailed notes of key points from videos</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <h3>Organize & Save</h3>
+                    <p>Easily manage and save your notes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-to-use" class="how-to-use">
+        <div class="container">
+            <h2>How to Use Noteworthy</h2>
+            <div class="step-grid">
+                <div class="step-item">
+                    <h3>1. Sign Up</h3>
+                    <p>Create your Noteworthy account</p>
+                </div>
+                <div class="step-item">
+                    <h3>2. Enter YouTube URL</h3>
+                    <p>Paste the video link you want to analyze</p>
+                </div>
+                <div class="step-item">
+                    <h3>3. Generate Notes</h3>
+                    <p>Our AI creates transcripts and key point summaries</p>
+                </div>
+                <div class="step-item">
+                    <h3>4. Edit & Export</h3>
+                    <p>Customize your notes and save in your preferred format</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Need Help?</h2>
+            <p>Our support team is ready to assist you</p>
+            <a href="mailto:noreplynoteworthy@gmail.com" class="button">Contact Support</a>
+            <p>Contact us: noreplynoteworthy@gmail.com</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Noteworthy. Be happy🙂.</p>
+            <div class="footer-links">
+
+                <a href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank">Google API Terms</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

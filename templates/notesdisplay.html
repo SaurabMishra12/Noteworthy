@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Notes</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
+
+    <!-- CodeMirror CSS for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/monokai.min.css">
+
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --background-color: #ecf0f1;
+            --text-color: #34495e;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--box-shadow);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        nav ul li {
+            margin-left: 1rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            opacity: 0.8;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+        }
+
+        h1, h2 {
+            color: var(--secondary-color);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .CodeMirror {
+            height: 300px;
+            border-radius: 4px;
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        .notes-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .note-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 1rem;
+            cursor: pointer;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .note-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .note-box-header {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .note-box-content {
+            font-size: 0.9rem;
+            color: #666;
+            flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 2rem;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        #modal-text {
+            white-space: pre-wrap;
+            font-family: 'Patrick Hand', cursive;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        /* Handwritten font for notes */
+        .handwritten {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .modal-buttons {
+            margin-top: 1rem;
+        }
+
+        .modal-buttons button {
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h1>Noteworthy</h1>
+            <div class="controls">
+                <button id="save-notes">Save Notes</button>
+                <!-- Removed the download button -->
+            </div>
+
+            <h2>Edit Notes</h2>
+            <textarea id="note-editor">{{ notes | safe }}</textarea>
+            <p style="color: gray;">Edit your note above and click "Save Notes". To view it in a proper format, select it from the saved notes below.</p>
+        </section>
+
+        <section>
+            <h2>Saved Notes</h2>
+            <div class="notes-list" id="saved-notes-list">
+                <!-- List of saved notes will appear here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Popup for Viewing Notes -->
+    <div id="noteModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-text"></div>
+            <div class="modal-buttons">
+                <button id="edit-note">Edit</button>
+                <button id="view-fullscreen">View Full Screen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- External JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsPDF/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.1.3/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_HTML"></script>
+
+    <script>
+        // Initialize CodeMirror
+        const noteEditor = CodeMirror.fromTextArea(document.getElementById('note-editor'), {
+            lineNumbers: true,
+            theme: 'monokai',
+            mode: 'markdown',
+            lineWrapping: true
+        });
+
+        const savedNotesList = document.getElementById('saved-notes-list');
+        const modal = document.getElementById("noteModal");
+        const modalText = document.getElementById("modal-text");
+        const span = document.getElementsByClassName("close")[0];
+        const editButton = document.getElementById('edit-note');
+        const fullScreenButton = document.getElementById('view-fullscreen');
+        let currentNoteIndex = null;
+
+        function displaySavedNotes() {
+            savedNotesList.innerHTML = '';
+            const savedNotes = JSON.parse(localStorage.getItem('notesChunks')) || [];
+
+            savedNotes.forEach((note, index) => {
+                const noteDiv = document.createElement('div');
+                noteDiv.classList.add('note-box');
+
+                const header = document.createElement('div');
+                header.classList.add('note-box-header');
+                header.textContent = `Note ${index + 1}`;
+
+                const content = document.createElement('div');
+                content.classList.add('note-box-content');
+                content.innerHTML = marked(note).substring(0, 100) + (note.length > 100 ? '...' : '');
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = "Delete";
+                deleteButton.style.marginTop = "0.5rem";
+                deleteButton.style.backgroundColor = "#e74c3c"; // red
+                deleteButton.style.border = "none";
+                deleteButton.style.color = "white";
+                deleteButton.style.padding = "0.3rem 0.5rem";
+                deleteButton.style.cursor = "pointer";
+                deleteButton.addEventListener('click', (event) => {
+                    event.stopPropagation(); // Prevent the modal from opening
+                    savedNotes.splice(index, 1); // Remove note
+                    localStorage.setItem('notesChunks', JSON.stringify(savedNotes));
+                    displaySavedNotes();
+                    alert('Note deleted successfully!');
+                });
+
+                noteDiv.appendChild(header);
+                noteDiv.appendChild(content);
+                noteDiv.appendChild(deleteButton);
+
+                noteDiv.addEventListener('click', () => {
+                    currentNoteIndex = index;
+                    modal.style.display = "block";
+                    modalText.innerHTML = marked(note);
+                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, modalText]);
+                });
+
+                savedNotesList.appendChild(noteDiv);
+            });
+        }
+
+        document.getElementById('save-notes').addEventListener('click', () => {
+            const noteContent = noteEditor.getValue();
+            const savedNotes = JSON.parse(localStorage.getItem('notesChunks')) || [];
+            if (currentNoteIndex !== null) {
+                // Update existing note
+                savedNotes[currentNoteIndex] = noteContent;
+                currentNoteIndex = null;
+                alert('Note updated successfully!');
+            } else {
+                // Save new note
+                savedNotes.push(noteContent);
+                alert('Note saved successfully!');
+            }
+            localStorage.setItem('notesChunks', JSON.stringify(savedNotes));
+            displaySavedNotes();
+            noteEditor.setValue(''); // Clear the editor
+        });
+
+        editButton.onclick = function() {
+            const savedNotes = JSON.parse(localStorage.getItem('notesChunks')); // Fix to parse JSON
+            noteEditor.setValue(savedNotes[currentNoteIndex]); // Set the note content in the editor
+            modal.style.display = "none"; // Close modal
+        };
+
+        fullScreenButton.onclick = function() {
+            if (modalText.style.maxHeight === "none") {
+                modalText.style.maxHeight = "60vh"; // Exit full screen
+                fullScreenButton.textContent = "View Full Screen";
+            } else {
+                modalText.style.maxHeight = "none"; // Full screen mode
+                fullScreenButton.textContent = "Exit Full Screen";
+            }
+        };
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        displaySavedNotes();
+    </script>
+</body>
+</html>
