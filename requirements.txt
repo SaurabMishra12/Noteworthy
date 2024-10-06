@@ -5,3 +5,4 @@ Werkzeug
 youtube-transcript-api
 google-generativeai
 textwrap3
+gunicorn
