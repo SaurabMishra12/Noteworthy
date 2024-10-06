@@ -1,7 +1,7 @@
 
-Flask==2.3.3
-Flask-SQLAlchemy==3.0.5
-Werkzeug==2.3.6
-youtube-transcript-api==0.6.0
-google-generativeai==0.1.0
-textwrap3==0.9.2
+Flask
+Flask-SQLAlchemy
+Werkzeug
+youtube-transcript-api
+google-generativeai
+textwrap3
