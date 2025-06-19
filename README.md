@@ -104,7 +104,7 @@ flowchart TD
 ```mermaid
 graph TB
     subgraph "🎨 Presentation Layer"
-        UI[Streamlit Frontend]
+        UI[Flask Frontend]
         AUTH[Authentication UI]
         DASH[User Dashboard]
     end
