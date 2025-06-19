@@ -438,7 +438,7 @@ git push origin feature/amazing-feature
 
 ### Getting Help
 
-- 📧 **Technical Support**: [noreplynoteworthy@gmail.com](mailto:noreplynoteworthy@gmail.com)
+- 📧 **Technical Support**: [saurab23@iisertvm.ac.in](mailto:saurab23@iisertvm.ac.in)
 - 🐛 **Bug Reports**: [GitHub Issues](https://github.com/SaurabMishra12/Noteworthy/issues)
 - 💡 **Feature Requests**: [GitHub Discussions](https://github.com/SaurabMishra12/Noteworthy/discussions)
 
