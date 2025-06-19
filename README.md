@@ -208,25 +208,25 @@ DEBUG_MODE=true
 | **Database** | Firestore | NoSQL document database |
 | **Video Processing** | YouTube Transcript API | Video content extraction |
 
-### Development Tools
+## Development Tools
 
 ```mermaid
-gitgraph
-    commit id:"Initial Setup"
-    branch development
-    checkout development
-    commit id:"Core Features"
-    commit id:"AI Integration"
-    commit id:"User Interface"
-    checkout main
-    merge development
-    commit id:"Production Ready"
-    branch feature/export
-    checkout feature/export
-    commit id:"Export Features"
-    checkout main
-    merge feature/export
-    commit id:"Enhanced Export"
+gitGraph
+   commit id: "Initial Setup"
+   branch development
+   checkout development
+   commit id: "Core Features"
+   commit id: "AI Integration"
+   commit id: "User Interface"
+   checkout main
+   merge development
+   commit id: "Production Ready"
+   branch feature/export
+   checkout feature/export
+   commit id: "Export Features"
+   checkout main
+   merge feature/export
+   commit id: "Enhanced Export"
 ```
 
 ---
