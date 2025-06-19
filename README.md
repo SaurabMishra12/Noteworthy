@@ -6,7 +6,6 @@
 ![Noteworthy Logo](https://img.shields.io/badge/Noteworthy-AI%20Video%20Intelligence-blue?style=for-the-badge&logo=youtube&logoColor=white)
 
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
-[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://streamlit.io)
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black)](https://firebase.google.com)
 [![Google AI](https://img.shields.io/badge/Google%20AI-4285F4?style=flat-square&logo=google&logoColor=white)](https://ai.google.dev)
 
