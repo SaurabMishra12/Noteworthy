@@ -323,7 +323,7 @@ xychart-beta
 |--------|-------|-------|
 | **Average Processing Time** | 15-30 seconds | ⬇️ Improving |
 | **Note Accuracy** | 94% | ⬆️ Increasing |
-| **User Satisfaction** | 4.7/5.0 | ⬆️ Growing |
+| **User Satisfaction** | ?/5.0 | NA |
 | **Export Success Rate** | 99.2% | ➡️ Stable |
 
 ---
